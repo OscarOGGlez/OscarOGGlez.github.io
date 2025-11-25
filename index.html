@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boscoffee - Coffee Shop</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600&family=Playfair+Display:wght@400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            line-height: 1.6;
+            color: #3a3a3a;
+            background-color: #faf8f5;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(250, 248, 245, 0.98);
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(139, 90, 43, 0.1);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #8b5a2b;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            color: #3a3a3a;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 300;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        nav a:hover {
+            color: #8b5a2b;
+        }
+
+        /* Carousel Section */
+        .carousel-section {
+            margin-top: 80px;
+            position: relative;
+            min-height: 95vh;
+            overflow: visible;
+            background: #faf8f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 3rem 0;
+        }
+
+        .carousel-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            z-index: 10;
+        }
+
+        .carousel-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 400;
+            letter-spacing: 8px;
+            margin-bottom: 0.5rem;
+            animation: fadeInDown 1.2s ease-out;
+            color: #8b5a2b;
+        }
+
+        .carousel-header p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            animation: fadeInUp 1.2s ease-out 0.3s backwards;
+            color: #3a3a3a;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+        }
+
+        .carousel-track {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.4;
+            transform: scale(0.75) translateX(0);
+            z-index: 1;
+        }
+
+        .carousel-slide.prev {
+            transform: scale(0.8) translateX(-80%);
+            opacity: 0.5;
+            z-index: 2;
+        }
+
+        .carousel-slide.active {
+            transform: scale(1) translateX(0);
+            opacity: 1;
+            z-index: 3;
+        }
+
+        .carousel-slide.next {
+            transform: scale(0.8) translateX(80%);
+            opacity: 0.5;
+            z-index: 2;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .carousel-overlay {
+            display: none;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            padding: 16px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+            animation: fadeInUp 1.2s ease-out 0.6s backwards;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .whatsapp-btn:hover {
+            background: #20ba5a;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
+        }
+
+        .carousel-footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-bottom: 2rem;
+            animation: fadeInUp 1.2s ease-out 0.6s backwards;
+        }
+
+        .carousel-dots {
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(139, 90, 43, 0.4);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #8b5a2b;
+            width: 30px;
+            border-radius: 5px;
+        }
+
+        /* Carousel Navigation Arrows */
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(139, 90, 43, 0.8);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 1.5rem;
+        }
+
+        .carousel-arrow:hover {
+            background: #8b5a2b;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-arrow.left {
+            left: 5%;
+        }
+
+        .carousel-arrow.right {
+            right: 5%;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            color: #8b5a2b;
+            font-weight: 400;
+            letter-spacing: 3px;
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .menu-content {
+            padding: 2rem;
+        }
+
+        .menu-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: #8b5a2b;
+            font-weight: 400;
+        }
+
+        .menu-content p {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .price {
+            font-size: 1.3rem;
+            color: #8b5a2b;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* About Section */
+        .about {
+            background: white;
+            border-radius: 12px;
+            padding: 4rem;
+            text-align: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+        }
+
+        .about p {
+            font-size: 1.15rem;
+            color: #555;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            line-height: 2;
+            font-weight: 300;
+        }
+
+        /* Contact Section */
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .contact-card h3 {
+            color: #8b5a2b;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+        }
+
+        .contact-card p {
+            color: #666;
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c2c2c;
+            color: #ccc;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .carousel-header h1 {
+                font-size: 2.8rem;
+                letter-spacing: 4px;
+            }
+
+            .carousel-header p {
+                font-size: 1rem;
+                letter-spacing: 2px;
+            }
+
+            .carousel-slide {
+                width: 80%;
+            }
+
+            .carousel-slide.prev,
+            .carousel-slide.next {
+                display: none;
+            }
+
+            .carousel-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .carousel-arrow.left {
+                left: 2%;
+            }
+
+            .carousel-arrow.right {
+                right: 2%;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            h2 {
+                font-size: 2.2rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">BOSCOFFEE</div>
+        <ul>
+            <li><a href="#inicio">INICIO</a></li>
+            <li><a href="#menu">MENÚ</a></li>
+            <li><a href="#nosotros">NOSOTROS</a></li>
+            <li><a href="#contacto">CONTACTO</a></li>
+        </ul>
+    </nav>
+
+    <!-- Carousel Section -->
+    <section id="inicio" class="carousel-section">
+        <div class="carousel-header">
+            <h1>BOSCOFFEE</h1>
+            <p>COFFEE SHOP</p>
+        </div>
+
+        <div class="carousel-wrapper">
+            <button class="carousel-arrow left" onclick="prevSlide()">❮</button>
+            <button class="carousel-arrow right" onclick="nextSlide()">❯</button>
+
+            <div class="carousel-container">
+                <div class="carousel-track">
+                    <div class="carousel-slide active">
+                        <img src="imagenes/imagen2.jpg" alt="Boscoffee - Café artesanal">
+                    </div>
+                    <div class="carousel-slide next">
+                        <img src="imagenes/imagen3.jpg" alt="Día del café">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="imagenes/imagen4.jpg" alt="Bebidas especiales">
+                    </div>
+                    <div class="carousel-slide prev">
+                        <img src="imagenes/imagen6.jpg" alt="Bebidas refrescantes">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-dots">
+            <span class="dot active" onclick="goToSlide(0)"></span>
+            <span class="dot" onclick="goToSlide(1)"></span>
+            <span class="dot" onclick="goToSlide(2)"></span>
+            <span class="dot" onclick="goToSlide(3)"></span>
+        </div>
+
+        <div class="carousel-footer">
+            <a href="https://wa.me/5218181234567?text=Hola,%20me%20gustaría%20hacer%20un%20pedido%20en%20Boscoffee" 
+               class="whatsapp-btn" 
+               target="_blank">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                ORDENAR POR WHATSAPP
+            </a>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu">
+        <h2>NUESTRO MENÚ</h2>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <img src="imagenes/imagen2.jpg" alt="Café Artesanal">
+                <div class="menu-content">
+                    <h3>Café de Especialidad</h3>
+                    <p>Café artesanal preparado con métodos tradicionales</p>
+                    <span class="price">$55</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="imagenes/imagen3.jpg" alt="Café Latte">
+                <div class="menu-content">
+                    <h3>Café Latte</h3>
+                    <p>Suave mezcla de espresso con leche vaporizada y arte latte</p>
+                    <span class="price">$50</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="imagenes/imagen4.jpg" alt="Bebida Especial">
+                <div class="menu-content">
+                    <h3>Bebida de la Casa</h3>
+                    <p>Refrescante bebida con capas de colores vibrantes</p>
+                    <span class="price">$65</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="imagenes/imagen6.jpg" alt="Bebida Fría">
+                <div class="menu-content">
+                    <h3>Frappé Frutal</h3>
+                    <p>Bebida helada con toques frutales y refrescantes</p>
+                    <span class="price">$60</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="imagenes/imagen5.jpg" alt="Sandwich">
+                <div class="menu-content">
+                    <h3>Sandwich Gourmet</h3>
+                    <p>Pan tostado con ingredientes frescos y papas fritas</p>
+                    <span class="price">$95</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="imagenes/imagen8.jpg" alt="Hamburguesa">
+                <div class="menu-content">
+                    <h3>Hamburguesa Premium</h3>
+                    <p>Hamburguesa artesanal con papas fritas</p>
+                    <span class="price">$120</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="imagenes/imagen7.jpg" alt="Rollitos">
+                <div class="menu-content">
+                    <h3>Rollitos Boscoffee</h3>
+                    <p>Deliciosos rollitos con relleno especial y salsa</p>
+                    <span class="price">$85</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="imagenes/imagen1.jpg" alt="Botana Mix">
+                <div class="menu-content">
+                    <h3>Botana Mix</h3>
+                    <p>Tabla de botanas variadas: aros de cebolla, papas, nuggets y más</p>
+                    <span class="price">$150</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="nosotros">
+        <div class="about">
+            <h2>SOBRE NOSOTROS</h2>
+            <p>
+                En Boscoffee, cada taza cuenta una historia. Somos más que una cafetería, 
+                somos un espacio donde el arte del café se encuentra con momentos inolvidables. 
+                Nuestros baristas expertos seleccionan cuidadosamente cada grano para ofrecerte 
+                una experiencia sensorial única.
+            </p>
+            <p>
+                Desde bebidas clásicas hasta creaciones innovadoras, cada preparación refleja 
+                nuestra pasión por el café de especialidad y nuestro compromiso con la calidad. 
+                Te invitamos a ser parte de nuestra comunidad.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto">
+        <h2>CONTÁCTANOS</h2>
+        <div class="contact-info">
+            <div class="contact-card">
+                <h3>📍 Ubicación</h3>
+                <p>Av. Principal #123<br>Centro, Victoria de Durango</p>
+            </div>
+            <div class="contact-card">
+                <h3>⏰ Horario</h3>
+                <p>Lunes a Viernes: 7:00 AM - 8:00 PM<br>Sábados y Domingos: 8:00 AM - 9:00 PM</p>
+            </div>
+            <div class="contact-card">
+                <h3>📞 Teléfono</h3>
+                <p>(618) 123-4567<br>WhatsApp: +52 1 618 123 4567</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Boscoffee. Todos los derechos reservados.</p>
+        <p>Hecho con amor y café ☕</p>
+    </footer>
+
+    <script>
+        let currentIndex = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+
+        function updateCarousel() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active', 'prev', 'next');
+                
+                if (index === currentIndex) {
+                    slide.classList.add('active');
+                } else if (index === (currentIndex - 1 + totalSlides) % totalSlides) {
+                    slide.classList.add('prev');
+                } else if (index === (currentIndex + 1) % totalSlides) {
+                    slide.classList.add('next');
+                }
+            });
+
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            updateCarousel();
+        }
+
+        // Auto-play carousel
+        let autoplay = setInterval(nextSlide, 4000);
+
+        // Pause autoplay on hover
+        const carouselSection = document.querySelector('.carousel-section');
+        carouselSection.addEventListener('mouseenter', () => {
+            clearInterval(autoplay);
+        });
+
+        carouselSection.addEventListener('mouseleave', () => {
+            autoplay = setInterval(nextSlide, 4000);
+        });
+
+        // Initialize carousel
+        updateCarousel();
+    </script>
+</body>
+</html>
