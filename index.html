@@ -77,14 +77,30 @@
         }
 
         .carousel-header {
-            text-align: center;
+            text-align: left;
             margin-bottom: 2.5rem;
             z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding-left: 5%;
+        }
+
+        .carousel-header img {
+            max-width: 200px;
+            width: 100%;
+            height: auto;
+            animation: fadeInDown 1.2s ease-out;
+        }
+
+        .carousel-header-text {
+            display: flex;
+            flex-direction: column;
         }
 
         .carousel-header h1 {
             font-family: 'Lora', serif;
-            font-size: 5rem;
+            font-size: 4rem;
             font-weight: 700;
             letter-spacing: 5px;
             margin-bottom: 0.5rem;
@@ -161,7 +177,6 @@
             object-fit: contain;
             border-radius: 8px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            border: 3px solid #3a2a1a;
         }
 
         .whatsapp-btn {
@@ -201,24 +216,6 @@
             z-index: 10;
             margin-top: 2rem;
             justify-content: center;
-        }
-
-        /* Video Section */
-        .video-container {
-            width: 100%;
-            max-width: 900px;
-            margin: 3rem auto 2rem;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-            border: 3px solid #3a2a1a;
-            animation: fadeInUp 1.2s ease-out 0.8s backwards;
-        }
-
-        .video-container video {
-            width: 100%;
-            height: auto;
-            display: block;
         }
 
         .dot {
@@ -360,6 +357,40 @@
             font-weight: 400;
         }
 
+        .mission-vision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+            text-align: left;
+        }
+
+        .mission-vision-card {
+            background: #e8d7c3;
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 2px solid #3a2a1a;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .mission-vision-card h3 {
+            font-family: 'Lora', serif;
+            font-size: 1.8rem;
+            color: #2a1a0a;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .mission-vision-card p {
+            font-size: 1.05rem;
+            color: #2a1a0a;
+            line-height: 1.9;
+            margin: 0;
+            text-align: justify;
+        }
+
         /* Contact Section */
         .contact-info {
             display: grid;
@@ -433,9 +464,20 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            .carousel-header {
+                flex-direction: column;
+                text-align: center;
+                padding-left: 0;
+                align-items: center;
+            }
+
+            .carousel-header img {
+                max-width: 150px;
+            }
+
             .carousel-header h1 {
-                font-size: 2.8rem;
-                letter-spacing: 4px;
+                font-size: 2.5rem;
+                letter-spacing: 3px;
             }
 
             .carousel-header p {
@@ -497,8 +539,11 @@
     <!-- Carousel Section -->
     <section id="inicio" class="carousel-section">
         <div class="carousel-header">
-            <h1>BOSCOFFEE</h1>
-            <p>COFFEE SHOP</p>
+            <img src="imagenes/Logo.PNG" alt="Boscoffee Logo">
+            <div class="carousel-header-text">
+                <h1>BOSCOFFEE</h1>
+                <p>COFFEE SHOP</p>
+            </div>
         </div>
 
         <div class="carousel-wrapper">
@@ -528,17 +573,11 @@
             <span class="dot" onclick="goToSlide(1)"></span>
             <span class="dot" onclick="goToSlide(2)"></span>
             <span class="dot" onclick="goToSlide(3)"></span>
-        </div>
-
-        <div class="video-container">
-            <video controls autoplay muted loop>
-                <source src="imagenes/Video.mp4" type="video/mp4">
-                Tu navegador no soporta la reproducción de videos.
-            </video>
+            <span class="dot" onclick="goToSlide(4)"></span>
         </div>
 
         <div class="carousel-footer">
-            <a href="https://wa.me/5218181234567?text=Hola,%20me%20gustaría%20hacer%20un%20pedido%20en%20Boscoffee"
+            <a href="https://wa.me/5216181534831?text=Hola,%20me%20gustaría%20hacer%20un%20pedido%20en%20Boscoffee"
                 class="whatsapp-btn" target="_blank">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -617,6 +656,14 @@
                     <span class="price">$150</span>
                 </div>
             </div>
+            <div class="menu-item">
+                <img src="imagenes/imagen9.jpg" alt="Especialidad Boscoffee">
+                <div class="menu-content">
+                    <h3>Especialidad Boscoffee</h3>
+                    <p>Nuestra creación especial del chef</p>
+                    <span class="price">$110</span>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -635,6 +682,27 @@
                 nuestra pasión por el café de especialidad y nuestro compromiso con la calidad.
                 Te invitamos a ser parte de nuestra comunidad.
             </p>
+
+            <div class="mission-vision">
+                <div class="mission-vision-card">
+                    <h3>MISIÓN</h3>
+                    <p>
+                        Brindar a nuestros clientes una experiencia satisfactoria y agradable a través de café y
+                        alimentos de alta calidad, en un ambiente acogedor y cómodo. Nos esforzamos continuamente por
+                        crecer como negocio, fomentando un entorno laboral positivo y colaborativo que nos permita
+                        ofrecer un servicio atento y personalizado.
+                    </p>
+                </div>
+                <div class="mission-vision-card">
+                    <h3>VISIÓN</h3>
+                    <p>
+                        Ser reconocidos como líderes en la industria local gracias a la calidad, calidez y compromiso
+                        con el cliente que caracterizan nuestro servicio, y expandirnos a nivel regional y nacional a
+                        través de un modelo de franquicia que mantenga nuestros estándares de excelencia y nuestro
+                        ambiente acogedor y colaborativo.
+                    </p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -644,15 +712,15 @@
         <div class="contact-info">
             <div class="contact-card">
                 <h3>📍 Ubicación</h3>
-                <p>Av. Principal #123<br>Centro, Victoria de Durango</p>
+                <p>Independencia 334<br>Zona Centro, Durango, Dgo Mx.</p>
             </div>
             <div class="contact-card">
                 <h3>⏰ Horario</h3>
-                <p>Lunes a Viernes: 7:00 AM - 8:00 PM<br>Sábados y Domingos: 8:00 AM - 9:00 PM</p>
+                <p>8:00 AM - 10:30 PM<br>Todos los días</p>
             </div>
             <div class="contact-card">
                 <h3>📞 Teléfono</h3>
-                <p>(618) 123-4567<br>WhatsApp: +52 1 618 123 4567</p>
+                <p>(618) 153-4831<br>WhatsApp: +52 1 618 153 4831</p>
             </div>
         </div>
     </section>
